@@ -37,7 +37,7 @@ namespace Maxotek.EmailUtils
         }
 
         public void SendMail(string subject, string to, string from, string template,
-            Dictionary<string, string> parameters)
+            Dictionary<string, string> parameters, MailAddress replyTo = null)
         {
             var body = ReplaceVars(template, parameters);
 
@@ -53,6 +53,9 @@ namespace Maxotek.EmailUtils
                     IsBodyHtml = true,
                     Subject = subject
                 };
+
+                if (replyTo != null)
+                    message.ReplyToList.Add(replyTo);
 
                 client.Send(message);
             }
